@@ -20,13 +20,22 @@ const pool = new pg_1.Pool({
     host: 'localhost',
     database: 'api',
     password: 'password',
-    port: 5432
+    port: parseInt(poolPort)
 });
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
     res.json({ info: 'Node.js, Express, and Postgres API' });
 });
+const getUsers = (req, res) => {
+    pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
+        if (error) {
+            throw error;
+        }
+        res.status(200).json(results.rows);
+    });
+};
+app.get('/api/', getUsers);
 app.listen(port, () => {
     console.log('listening on port ' + port);
 });

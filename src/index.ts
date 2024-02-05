@@ -2,6 +2,7 @@ import express, { Application, Request, Response, NextFunction } from 'express';
 /** module to create a pool of connections.*/
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
+import { error } from 'console';
 
 // Load environment variables from .env file
 dotenv.config()
@@ -17,7 +18,7 @@ const pool: Pool = new Pool({
     user: 'me',
     host: 'localhost',
     database:'api',
-    password: poolPassword,
+    password: 'password',
     port: parseInt(poolPort as string)
 })
 
@@ -27,6 +28,17 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req: Request, res: Response) => {
     res.json({ info: 'Node.js, Express, and Postgres API' })
 })
+
+const getUsers = (req: Request, res: Response) =>{
+    pool.query('SELECT * FROM users ORDER BY id ASC', (error, results):void =>{
+        if(error){
+            throw error;
+        }
+        res.status(200).json(results.rows);
+    })
+}
+
+app.get('/api/', getUsers)
 
 app.listen(port, () => {
     console.log('listening on port ' + port);
