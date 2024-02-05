@@ -8,7 +8,7 @@ dotenv.config()
 
 const app: Application = express();
 // const port: number = 3000;
-const port: number = process.env.POOL_PORT;
+const port: number = parseInt(process.env.PORT || '3030' as string);
 const poolPort = process.env.POOL_PORT;
 const poolPassword = process.env.POOL_PORT;
 
@@ -17,20 +17,16 @@ const pool: Pool = new Pool({
     user: 'me',
     host: 'localhost',
     database:'api',
-    password: 'password',
-    port: 5432
+    password: poolPassword,
+    port: parseInt(poolPort as string)
 })
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req: Request, res: Response) => {
     res.json({ info: 'Node.js, Express, and Postgres API' })
-}
-
-
-)
+})
 
 app.listen(port, () => {
     console.log('listening on port ' + port);

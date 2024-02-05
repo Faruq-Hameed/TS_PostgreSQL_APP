@@ -12,3 +12,11 @@
 ├── package.json
 
 - connected with the PostgreSQL database
+
+### Endpoints
+- GET: / | displayHome()
+- GET: /users | getUsers()
+- GET: /users/:id | getUserById()
+- POST: /users | createUser()
+- PUT: /users/:id | updateUser()
+- DELETE: /users/:id | deleteUser()
