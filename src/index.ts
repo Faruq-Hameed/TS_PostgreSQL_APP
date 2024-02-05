@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('<h1>Welcome!</h1>');
+    res.json({ info: 'Node.js, Express, and Postgres API' })
 }
 
 
