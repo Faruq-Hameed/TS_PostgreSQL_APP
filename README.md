@@ -11,4 +11,4 @@
 ├── tsconfig.json
 ├── package.json
 
-- connected with the database
+- connected with the PostgreeSQL database
