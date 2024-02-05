@@ -8,17 +8,16 @@ import { error } from 'console';
 dotenv.config()
 
 const app: Application = express();
-// const port: number = 3000;
 const port: number = parseInt(process.env.PORT || '3030' as string);
 const poolPort = process.env.POOL_PORT;
-const poolPassword = process.env.POOL_PORT;
+const poolPassword = process.env.POOL_PASSWORD;
 
 //Pool configuration
 const pool: Pool = new Pool({
     user: 'me',
     host: 'localhost',
     database:'api',
-    password: 'password',
+    password: poolPassword,
     port: parseInt(poolPort as string)
 })
 

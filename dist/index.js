@@ -13,13 +13,13 @@ const app = (0, express_1.default)();
 // const port: number = 3000;
 const port = parseInt(process.env.PORT || '3030');
 const poolPort = process.env.POOL_PORT;
-const poolPassword = process.env.POOL_PORT;
+const poolPassword = process.env.POOL_PASSWORD;
 //Pool configuration
 const pool = new pg_1.Pool({
     user: 'me',
     host: 'localhost',
     database: 'api',
-    password: 'password',
+    password: poolPassword,
     port: parseInt(poolPort)
 });
 app.use(express_1.default.json());
