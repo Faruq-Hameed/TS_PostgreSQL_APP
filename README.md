@@ -10,3 +10,5 @@
 │   ├── index.ts
 ├── tsconfig.json
 ├── package.json
+
+- connected with the database
