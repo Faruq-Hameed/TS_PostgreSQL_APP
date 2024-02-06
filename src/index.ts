@@ -2,6 +2,7 @@ import express, { Application, Request, Response, NextFunction } from 'express';
 /** module to create a pool of connections.*/
 // import { Pool } from 'pg';
 import dotenv from 'dotenv';
+import { router as userRouter } from './routes/userRouters'
 
 // Load environment variables from .env file
 dotenv.config()
@@ -37,6 +38,7 @@ app.get('/', (req: Request, res: Response) => {
 // }
 
 // app.get('/api/', getUsers)
+app.use('/', userRouter)
 
 app.listen(port, () => {
     console.log('listening on port ' + port);
