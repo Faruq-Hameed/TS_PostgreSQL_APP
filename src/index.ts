@@ -1,24 +1,10 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
-/** module to create a pool of connections.*/
 
-import { error } from 'console';
 
-// Load environment variables from .env file
-dotenv.config()
 
 const app: Application = express();
 const port: number = parseInt(process.env.PORT || '3030' as string);
-const poolPort = process.env.POOL_PORT;
-const poolPassword = process.env.POOL_PASSWORD;
 
-//Pool configuration
-const pool: Pool = new Pool({
-    user: 'me',
-    host: 'localhost',
-    database:'api',
-    password: poolPassword,
-    port: parseInt(poolPort as string)
-})
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
