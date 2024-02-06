@@ -1,6 +1,6 @@
 import express, { Router } from 'express'
 import {getUsers} from './query'
 
-export const app : Router = Router()
+export const router : Router = Router()
 
-app.get('/', getUsers)
+router.get('/', getUsers)
