@@ -41,8 +41,7 @@ export const createUser = (req: Request, res: Response): void => {
     )
 }
 
-/**update user */
-
+/**update user */ //Not yet tested
 export const updateUser = (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     const { name, email } = req.body;
