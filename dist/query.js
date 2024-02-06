@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = exports.getUserById = exports.getUsers = void 0;
+exports.updateUser = exports.createUser = exports.getUserById = exports.getUsers = void 0;
 const pool_1 = __importDefault(require("./utils/pool"));
 /** get all users api */
 const getUsers = (req, res) => {
@@ -41,3 +41,20 @@ const createUser = (req, res) => {
     });
 };
 exports.createUser = createUser;
+/**update user */ //Not yet tested
+const updateUser = (req, res) => {
+    const id = parseInt(req.params.id);
+    const { name, email } = req.body;
+    pool_1.default.query('UPDATE users SET name = $1, email = $2 WHERE id = $3', [name, email, id], (error, results) => {
+        if (error) {
+            throw error;
+        }
+        res.
+            status(200)
+            .send({
+            message: `User modified with ID: ${results.rows[0].id}`,
+            results: results.rows[0]
+        });
+    });
+};
+exports.updateUser = updateUser;
