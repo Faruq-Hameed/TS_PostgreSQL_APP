@@ -3,7 +3,6 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import { router as userRouter } from './routes/userRouters'
 
-
 // Load environment variables from .env file
 dotenv.config()
 
@@ -14,11 +13,11 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/api', userRouter)
+
 app.get('/', (req: Request, res: Response) => {
     res.json({ info: 'Node.js, Express, and Postgres API' })
 })
-
-app.use('/api', userRouter)
 
 app.listen(port, () => {
     console.log('listening on port ' + port);
