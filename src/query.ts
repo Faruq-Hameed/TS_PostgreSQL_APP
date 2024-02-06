@@ -1,7 +1,8 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
+import pool from './utils/pool';
 
 
-const getUsers = (req: Request, res: Response) =>{
+export const getUsers = (req: Request, res: Response) =>{
     pool.query('SELECT * FROM users ORDER BY id ASC', (error, results):void =>{
         if(error){
             throw error;

@@ -16,3 +16,8 @@ const pool: Pool = new Pool({
     password: poolPassword,
     port: parseInt(poolPort as string)
 })
+
+// Export the pool configuration
+
+export default pool
+
