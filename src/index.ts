@@ -1,6 +1,8 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
+import morgan from 'morgan';
 import dotenv from 'dotenv';
 import { router as userRouter } from './routes/userRouters'
+
 
 // Load environment variables from .env file
 dotenv.config()
@@ -8,6 +10,7 @@ dotenv.config()
 const app: Application = express();
 const port: number = parseInt(process.env.PORT || '3030' as string);
 
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
