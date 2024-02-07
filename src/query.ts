@@ -2,6 +2,7 @@ import express, { Application, Request, Response, NextFunction } from 'express';
 import pool from './utils/pool';
 import { error } from 'console';
 import {Query} from './utils/types'
+import { parse } from 'path';
 
 /** get all users api */
 export const getUsers = (req: Request, res: Response) => {
@@ -42,7 +43,7 @@ export const createUser = (req: Request, res: Response): void => {
     )
 }
 
-// /**update user */ //Not yet tested
+// /**update user */
 export const updateUser = (req: Request, res: Response) => {
 
     const id = parseInt(req.params.id);
@@ -66,5 +67,26 @@ export const updateUser = (req: Request, res: Response) => {
             message: `User modified with ID: ${id}`,
             updatedUser: results.rows[0]
         })
+    })
+}
+
+//DELETE A USER
+
+const deleteUser = (req: Request, res: Response) => {
+    const id = parseInt(req.params.id);
+    const query: Query = {
+        text: ('DELETE FROM users WHERE id = $1'),
+        values: [id]
+    }
+    pool.query(query, (error, result) => {
+        if(error){
+            throw error;
+        }
+        //check if any user was deleted
+        if(result.rowCount === 0 ){
+            res.status(404).send({ message: 'User not found' });
+            return;
+        }
+        res.status(200).send({ message: `User deleted with ID: ${id}`, results: result.rows[0] });
     })
 }
