@@ -62,11 +62,7 @@ export const updateUser = (req: Request, res: Response) => {
             return;
         }
         //if a user is found return the updated user
-        res
-            .status(200)
-            .send(
-                {
-                    // message: `User modified with ID: ${results.rows[0].id}`,
+        res.status(200).send({
                     message: `User modified with ID: ${id}`,
                     results: results.rows[0]
                 })
