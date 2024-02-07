@@ -42,39 +42,40 @@ export const createUser = (req: Request, res: Response): void => {
 }
 
 // /**update user */ //Not yet tested
-// export const updateUser = (req: Request, res: Response) => {
-    
-//     const id = parseInt(req.params.id);
-//     console.log({id}, 'req.params.id: ', req.params.id);
-//     const { name, email } = req.body;
-//     pool.query('UPDATE users SET name = $1, email = $2 WHERE id = $3', [name, email, id],
-//         (error, results) => {
-//             if (error) {
-//                 throw error;
-//             }
-//             res.
-//                 status(200)
-//                 .send(
-//                     {
-//                         message: `User modified with ID: ${results.rows[0].id}`,
-//                         results: results.rows[0]
-//                     })
-
-//         })
-// }
-
 export const updateUser = (req: Request, res: Response) => {
-    const id = parseInt(req.params.id)
-    const { name, email } = req.body
+    
+    const id = parseInt(req.params.id);
+    console.log({id}, 'req.params.id: ', req.params.id);
+    const { name, email } = req.body;
+    pool.query('UPDATE users SET name = $1, email = $2 WHERE id = $3', [name, email, id],
+        (error, results) => {
+            if (error) {
+                throw error;
+            }
+            res 
+            .status(200)
+                .send(
+                    {
+                        // message: `User modified with ID: ${results.rows[0].id}`,
+                        message: `User modified with ID: ${id}`,
+                        results: results.rows[0] 
+                    })
+
+        })
+}
+
+// export const updateUser = (req: Request, res: Response) => {
+//     const id = parseInt(req.params.id)
+//     const { name, email } = req.body
   
-    pool.query(
-      'UPDATE users SET name = $1, email = $2 WHERE id = $3',
-      [name, email, id],
-      (error, results) => {
-        if (error) {
-          throw error
-        }
-        res.status(200).send(`User modified with ID: ${id}`)
-      }
-    )
-  }
+//     pool.query(
+//       'UPDATE users SET name = $1, email = $2 WHERE id = $3',
+//       [name, email, id],
+//       (error, results) => {
+//         if (error) {
+//           throw error
+//         }
+//         res.status(200).send(`User modified with ID: ${id}`)
+//       }
+//     )
+//   }
