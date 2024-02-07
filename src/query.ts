@@ -4,7 +4,11 @@ import {Query} from './utils/types'
 
 /** get all users api */
 export const getUsers = (req: Request, res: Response) => {
-    pool.query('SELECT * FROM users ORDER BY id ASC', (error, results): void => {
+    const query: Query = {
+        text: 'SELECT * FROM users ORDER BY id ASC',
+        values: []
+    }
+    pool.query(query, (error, results): void => {
         if (error) {
             throw error;
         }

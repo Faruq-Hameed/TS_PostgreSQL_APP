@@ -7,7 +7,11 @@ exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserBy
 const pool_1 = __importDefault(require("./utils/pool"));
 /** get all users api */
 const getUsers = (req, res) => {
-    pool_1.default.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
+    const query = {
+        text: 'SELECT * FROM users ORDER BY id ASC',
+        values: []
+    };
+    pool_1.default.query(query, (error, results) => {
         if (error) {
             throw error;
         }
