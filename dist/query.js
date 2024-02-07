@@ -11,7 +11,7 @@ const getUsers = (req, res) => {
         if (error) {
             throw error;
         }
-        res.status(200).json(results.rows);
+        res.status(200).json({ totalUser: results.rows.length, users: results.rows });
     });
 };
 exports.getUsers = getUsers;

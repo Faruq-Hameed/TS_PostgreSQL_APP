@@ -1,4 +1,4 @@
 export interface Query {
-    text?: string,
-    values?: any[],
+    text: string,
+    values: any[],
 }
