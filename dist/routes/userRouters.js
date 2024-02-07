@@ -9,3 +9,4 @@ exports.router.post('/', query_1.createUser);
 exports.router.get('/', query_1.getUsers);
 exports.router.get('/:id', query_1.getUserById);
 exports.router.put('/:id', query_1.updateUser);
+exports.router.delete('/:id', query_1.deleteUser);

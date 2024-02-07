@@ -10,7 +10,7 @@ export const getUsers = (req: Request, res: Response) => {
         if (error) {
             throw error;
         }
-        res.status(200).json(results.rows);
+        res.status(200).json({totalUser:results.rows.length, users:results.rows});
     })
 }
 
@@ -71,8 +71,7 @@ export const updateUser = (req: Request, res: Response) => {
 }
 
 //DELETE A USER
-
-const deleteUser = (req: Request, res: Response) => {
+export const deleteUser = (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     const query: Query = {
         text: ('DELETE FROM users WHERE id = $1'),
