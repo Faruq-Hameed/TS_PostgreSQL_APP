@@ -44,9 +44,12 @@ exports.createUser = createUser;
 // /**update user */ //Not yet tested
 const updateUser = (req, res) => {
     const id = parseInt(req.params.id);
-    console.log({ id }, 'req.params.id: ', req.params.id);
     const { name, email } = req.body;
-    pool_1.default.query('UPDATE users SET name = $1, email = $2 WHERE id = $3', [name, email, id], (error, results) => {
+    const query = {
+        text: 'UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *',
+        values: [name, email, id]
+    };
+    pool_1.default.query(query, (error, results) => {
         if (error) {
             throw error;
         }
@@ -55,7 +58,7 @@ const updateUser = (req, res) => {
             .send({
             // message: `User modified with ID: ${results.rows[0].id}`,
             message: `User modified with ID: ${id}`,
-            results: results
+            results: results.rows[0]
         });
     });
 };

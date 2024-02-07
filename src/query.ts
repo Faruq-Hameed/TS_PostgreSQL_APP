@@ -49,20 +49,26 @@ export const updateUser = (req: Request, res: Response) => {
     const { name, email } = req.body;
 
     const query: Query = {
-        text: 'INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *',
+        text: 'UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *',
         values: [name, email, id]
     };
     pool.query(query, (error, results) => {
         if (error) {
             throw error;
         }
+          // Check if any rows were updated
+          if (results.rowCount === 0) {
+            res.status(404).send({ message: 'User not found' });
+            return;
+        }
+        //if a user is found return the updated user
         res
             .status(200)
             .send(
                 {
                     // message: `User modified with ID: ${results.rows[0].id}`,
                     message: `User modified with ID: ${id}`,
-                    results
+                    results: results.rows[0]
                 })
     })
 }
