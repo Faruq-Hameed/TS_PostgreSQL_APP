@@ -58,7 +58,7 @@ export const updateUser = (req: Request, res: Response) => {
                     {
                         // message: `User modified with ID: ${results.rows[0].id}`,
                         message: `User modified with ID: ${id}`,
-                        results: results.rows[0] 
+                        results: results
                     })
 
         })
