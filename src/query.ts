@@ -1,8 +1,6 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import pool from './utils/pool';
-import { error } from 'console';
 import {Query} from './utils/types'
-import { parse } from 'path';
 
 /** get all users api */
 export const getUsers = (req: Request, res: Response) => {
