@@ -1,7 +1,7 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import pool from './utils/pool';
 import {Query} from './utils/types'
-
+import redis from 'redis'
 /** get all users api */
 export const getUsers = (req: Request, res: Response) => {
     const query: Query = {
