@@ -12,7 +12,8 @@ export const getUsers = async(req: Request, res: Response) => {
         const cachedUsers = await redisClient.get('allUsers');
         if(cachedUsers){ //if cached users are available return cached users
             isCached= true
-            return res.status(200).send({isCached, cachedUsers})
+            const parsedData = JSON.parse(cachedUsers) //parsed data
+            return res.status(200).send({isCached, parsedData})
         }
         const query: Query = {
         text: 'SELECT * FROM users ORDER BY id ASC',
@@ -42,43 +43,43 @@ export const getUsers = async(req: Request, res: Response) => {
 }
 
 
-export const getUsers = async (req: Request, res: Response) => {
-    try {
-        // Check if data exists in cache
-        const cachedData = await redisClient.get('users');
-        if (cachedData) {
-            console.log('Data retrieved from cache');
-            const parsedData = JSON.parse(cachedData);
-            return res.status(200).json({
-                isCached: true,
-                cachedUsers: parsedData
-            });
-        }
+// export const getUsers = async (req: Request, res: Response) => {
+//     try {
+//         // Check if data exists in cache
+//         const cachedData = await redisClient.get('users');
+//         if (cachedData) {
+//             console.log('Data retrieved from cache');
+//             const parsedData = JSON.parse(cachedData);
+//             return res.status(200).json({
+//                 isCached: true,
+//                 cachedUsers: parsedData
+//             });
+//         }
 
-        // Data not found in cache, fetch from PostgreSQL
-        const query = {
-            text: 'SELECT * FROM users ORDER BY id ASC',
-            values: []
-        };
+//         // Data not found in cache, fetch from PostgreSQL
+//         const query = {
+//             text: 'SELECT * FROM users ORDER BY id ASC',
+//             values: []
+//         };
 
-        pool.query(query, (error, results) => {
-            if (error) {
-                throw error;
-            }
-            const responseData = { totalUser: results.rows.length, users: results.rows };
+//         pool.query(query, (error, results) => {
+//             if (error) {
+//                 throw error;
+//             }
+//             const responseData = { totalUser: results.rows.length, users: results.rows };
 
-            // Cache the data
-            redisClient.set('users', JSON.stringify(responseData));
+//             // Cache the data
+//             redisClient.set('users', JSON.stringify(responseData));
 
-            res.status(200).json({
-                isCached: false,
-                fetchedUsers: responseData
-            });
-        });
-    } catch (error) {
-        res.status(500).json({ error: (error as Error).message });
-    }
-};
+//             res.status(200).json({
+//                 isCached: false,
+//                 fetchedUsers: responseData
+//             });
+//         });
+//     } catch (error) {
+//         res.status(500).json({ error: (error as Error).message });
+//     }
+// };
 
 /** get all users api */
 export const getUserById = (req: Request, res: Response): void => {
