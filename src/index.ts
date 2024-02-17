@@ -34,16 +34,16 @@ const errorMiddleware: ErrorRequestHandler = (err, req: Request, res : Response,
 }
 app.use(errorMiddleware)
 
-const start = async ()=>{
-
-    try{
+const startServer = async () => {
+    try {
         await redisClient.connect();//connect to redis server
-    app.listen(port, () => {
-        console.log('server is connected to redis and listening on port ' + port);
-    })
+        app.listen(port, () => {
+            console.log('server is connected to redis and listening on port ' + port);
+        })
     }
     catch (error) {
         console.log('error connecting to redis server : ' + (error as Error).message);
     }
-
 }
+
+startServer()
