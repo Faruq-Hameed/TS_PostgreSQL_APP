@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cors from 'cors'; // to block requests from different origins
 import { router as userRouter } from './routes/userRouters'
+import {redisClient} from './config'
 
 // Load environment variables from .env file
 dotenv.config()
@@ -32,8 +33,6 @@ const errorMiddleware: ErrorRequestHandler = (err, req: Request, res : Response,
     res.status(500).send('Internal Server Error');
 }
 app.use(errorMiddleware)
-
-
 
 app.listen(port, () => {
     console.log('listening on port ' + port);
