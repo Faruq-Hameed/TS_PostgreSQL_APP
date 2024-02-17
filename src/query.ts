@@ -27,7 +27,7 @@ export const getUsers = async(req: Request, res: Response) => {
     const expirationInSeconds = 10
         isCached = false;
         await redisClient.set('allUsers', JSON.stringify(responseData))
-        redisClient.expire('allUsers', expirationInSeconds)
+        redisClient.expire('allUsers', expirationInSeconds) //set expiration in seconds
         res.status(200).json({ isCached, responseData });
 
     })}
