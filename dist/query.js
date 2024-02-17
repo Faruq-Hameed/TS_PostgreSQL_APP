@@ -1,33 +1,102 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getUsers = void 0;
 const pool_1 = __importDefault(require("./utils/pool"));
+const config_1 = require("./utils/config");
 /** get all users api */
-const getUsers = (req, res) => {
-    const query = {
-        text: 'SELECT * FROM users ORDER BY id ASC',
-        values: []
-    };
-    pool_1.default.query(query, (error, results) => {
-        if (error) {
-            throw error;
+// export const getUsers = async(req: Request, res: Response) => {
+//     let allUsers;
+//     try{
+//     // get all users from the cached
+//         let isCached;
+//         const cachedUsers = await redisClient.get('allUsers');
+//         if(cachedUsers){ //if cached users are available return cached users
+//             isCached= true
+//             return res.status(200).send({isCached, cachedUsers})
+//         }
+//         const query: Query = {
+//         text: 'SELECT * FROM users ORDER BY id ASC',
+//         values: []
+//     }
+//     pool.query(query, async(error, results) => {
+//         if (error) {
+//             throw error;
+//         }
+//         let responseData = {totalUser:results.rows.length, users:results.rows}
+//         // isCached=false;
+//         // await redisClient.set('allUsers', JSON.stringify(responseData))
+//         // res.status(200).json({isCached,responseData});
+//         redisClient.set('allUsers', JSON.stringify(responseData));
+//         res.status(200).json({
+//             isCached: false,
+//             fetchedUsers: responseData
+//         });
+//     })}
+//     catch(error){
+//         res.status(500).json({error:(error as Error).message});
+//     }
+// }
+const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Check if data exists in cache
+        const cachedData = yield config_1.redisClient.get('users');
+        if (cachedData) {
+            console.log('Data retrieved from cache');
+            const parsedData = JSON.parse(cachedData);
+            return res.status(200).json({
+                isCached: true,
+                cachedUsers: parsedData
+            });
         }
-        res.status(200).json({ totalUser: results.rows.length, users: results.rows });
-    });
-};
+        // Data not found in cache, fetch from PostgreSQL
+        const query = {
+            text: 'SELECT * FROM users ORDER BY id ASC',
+            values: []
+        };
+        pool_1.default.query(query, (error, results) => {
+            if (error) {
+                throw error;
+            }
+            const responseData = { totalUser: results.rows.length, users: results.rows };
+            // Cache the data
+            config_1.redisClient.set('users', JSON.stringify(responseData));
+            res.status(200).json({
+                isCached: false,
+                fetchedUsers: responseData
+            });
+        });
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 exports.getUsers = getUsers;
 /** get all users api */
 const getUserById = (req, res) => {
-    const id = parseInt(req.params.id);
-    pool_1.default.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
-        if (error) {
-            throw error;
-        }
-        res.status(200).json(results.rows);
-    });
+    try {
+        const id = parseInt(req.params.id);
+        pool_1.default.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+            if (error) {
+                throw error;
+            }
+            res.status(200).json(results.rows);
+        });
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 };
 exports.getUserById = getUserById;
 /**Create new user */
