@@ -3,7 +3,7 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cors from 'cors'; // to block requests from different origins
 import { router as userRouter } from './routes/userRouters'
-import {redisClient} from './config'
+import {redisClient} from './utils/config'
 
 // Load environment variables from .env file
 dotenv.config()
