@@ -1,10 +1,12 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import pool from './utils/pool';
+import axios from 'axios';
 import {Query} from './utils/types'
-import redis from 'redis'
+import {redisClient} from './utils/config'
 /** get all users api */
 export const getUsers = (req: Request, res: Response) => {
-    const query: Query = {
+    let allUsers;
+    try{const query: Query = {
         text: 'SELECT * FROM users ORDER BY id ASC',
         values: []
     }
@@ -13,18 +15,27 @@ export const getUsers = (req: Request, res: Response) => {
             throw error;
         }
         res.status(200).json({totalUser:results.rows.length, users:results.rows});
-    })
+    })}
+    catch(error){
+        res.status(500).json({error:(error as Error).message});
+    }
 }
 
 /** get all users api */
 export const getUserById = (req: Request, res: Response): void => {
-    const id: number = parseInt(req.params.id)
+    try{
+        /
+         const id: number = parseInt(req.params.id)
     pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
         if (error) {
             throw error
         }
         res.status(200).json(results.rows);
     })
+    }
+   catch (error) {
+    res.status(500).json({ error: (error as Error).message })
+   }
 }
 
 /**Create new user */

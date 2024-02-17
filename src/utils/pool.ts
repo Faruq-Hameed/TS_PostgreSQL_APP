@@ -18,6 +18,8 @@ const pool: Pool = new Pool({
 })
 
 // Export the pool configuration
-
+pool.connect().then(()=>{
+    console.log('connected to pg successfully');
+})
 export default pool
 

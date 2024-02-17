@@ -19,4 +19,7 @@ const pool = new pg_1.Pool({
     port: parseInt(poolPort)
 });
 // Export the pool configuration
+pool.connect().then(() => {
+    console.log('connected to pg successfully');
+});
 exports.default = pool;
