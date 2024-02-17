@@ -24,17 +24,11 @@ export const getUsers = async(req: Request, res: Response) => {
             throw error;
         }
         let responseData = {totalUser:results.rows.length, users:results.rows}
-        // isCached=false;
-        // await redisClient.set('allUsers', JSON.stringify(responseData))
-        // res.status(200).json({isCached,responseData});
-
-
-        redisClient.set('allUsers', JSON.stringify(responseData));
-
-        res.status(200).json({
-            isCached: false,
-            fetchedUsers: responseData
-        });
+    const expirationInSeconds = 10
+        isCached = false;
+        await redisClient.set('allUsers', JSON.stringify(responseData))
+        redisClient.expire('allUsers', expirationInSeconds)
+        res.status(200).json({ isCached, responseData });
 
     })}
     catch(error){
