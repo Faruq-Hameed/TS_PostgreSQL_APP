@@ -5,9 +5,6 @@ dotenv.config()
 /** module to create a pool of connections.*/
 import { Pool } from 'pg';
 
-const poolPort = process.env.POOL_PORT;
-const poolPassword = process.env.POOL_PASSWORD;
-
 //Pool configuration
 const pool: Pool = new Pool({
     user: 'me',
