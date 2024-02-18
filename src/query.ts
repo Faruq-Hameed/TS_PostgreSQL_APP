@@ -1,11 +1,9 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import pool from './utils/pool';
-import axios from 'axios';
 import {Query} from './utils/types'
 import {redisClient} from './utils/config'
 /** get all users api */
 export const getUsers = async(req: Request, res: Response) => {
-    let allUsers;
     try{
     // get all users from the cached
         let isCached;
