@@ -34,7 +34,6 @@ export const getUsers = async(req: Request, res: Response) => {
     }
 }
 
-
 // export const getUsers = async (req: Request, res: Response) => {
 //     try {
 //         // Check if data exists in cache
