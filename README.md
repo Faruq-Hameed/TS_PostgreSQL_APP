@@ -1,4 +1,4 @@
-# CRUD REST API with TypeScript Node.js, Express, and PostgreSQL
+# CRUD REST API with TypeScript Node.js, Express, PostgreSQL and REDIS
  - In this tutorial, we’ll create a CRUD RESTful API in a Node.js, TS environment that runs on an Express server and uses a PostgreSQL database.
 
  - [Tutorial Source ](https://blog.logrocket.com/crud-rest-api-node-js-express-postgresql/)
